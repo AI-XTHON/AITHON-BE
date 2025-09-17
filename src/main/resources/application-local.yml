@@ -19,3 +19,9 @@ spring:
         format_sql: true
         default_batch_fetch_size: 100
     open-in-view: true
+
+  # --- Liquibase Configuration ---
+  liquibase:
+    change-log: classpath:/db/db.changelog-master.yaml
+    enabled: true
+    contexts: local
