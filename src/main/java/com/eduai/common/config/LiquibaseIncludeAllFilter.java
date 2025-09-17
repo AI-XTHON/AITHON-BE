@@ -1,4 +1,4 @@
-package com.eduai.shared.config;
+package com.eduai.common.config;
 
 import liquibase.changelog.IncludeAllFilter;
 
