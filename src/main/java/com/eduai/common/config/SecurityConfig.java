@@ -35,7 +35,12 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/health").permitAll()
+                                .requestMatchers(
+                                        "/health",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html"
+                                        ).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(
