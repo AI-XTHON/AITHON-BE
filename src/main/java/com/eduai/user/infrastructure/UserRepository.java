@@ -1,7 +1,7 @@
 
-package com.eduai.auth.repository;
+package com.eduai.user.infrastructure;
 
-import com.eduai.auth.domain.User;
+import com.eduai.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

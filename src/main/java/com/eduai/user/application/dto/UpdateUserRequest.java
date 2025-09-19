@@ -1,6 +1,6 @@
-package com.eduai.member.application.dto;
+package com.eduai.user.application.dto;
 
-public record UpdateMemberRequest(
+public record UpdateUserRequest(
 
         String job,
         String ageRange,

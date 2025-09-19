@@ -1,8 +1,8 @@
-package com.eduai.member.presentation.docs;
+package com.eduai.user.presentation.docs;
 
 import com.eduai.common.dto.ApiResult;
 import com.eduai.common.exception.BusinessException;
-import com.eduai.member.application.dto.UpdateMemberRequest;
+import com.eduai.user.application.dto.UpdateUserRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "Member", description = "회원 관련 API")
-public interface MemberApiDocs {
+public interface UserApiDocs {
 
     @Operation(
             summary = "회원 정보 수정",
@@ -43,6 +43,6 @@ public interface MemberApiDocs {
             @Parameter(hidden = true)
             @AuthenticationPrincipal User user,
 
-            @RequestBody UpdateMemberRequest request
+            @RequestBody UpdateUserRequest request
     );
 }

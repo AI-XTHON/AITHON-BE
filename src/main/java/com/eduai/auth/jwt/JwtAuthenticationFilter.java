@@ -1,5 +1,5 @@
 
-package com.eduai.auth.security;
+package com.eduai.auth.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

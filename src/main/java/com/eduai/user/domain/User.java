@@ -1,15 +1,19 @@
 
-package com.eduai.auth.domain;
+package com.eduai.user.domain;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "users")
 @Getter
 @NoArgsConstructor
-@Table(name = "users")
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder(access = AccessLevel.PRIVATE)
 public class User {
 
     @Id
@@ -28,12 +32,13 @@ public class User {
 
     private String provider;
 
-    @Builder
-    public User(String email, String name, Role role, String provider) {
-        this.email = email;
-        this.name = name;
-        this.role = role;
-        this.provider = provider;
+    public static User create(String email, String name, Role role, String provider) {
+        return User.builder()
+                .email(email)
+                .name(name)
+                .role(role)
+                .provider(provider)
+                .build();
     }
 
     public User update(String name) {

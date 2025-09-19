@@ -1,9 +1,10 @@
 package com.eduai.common.config;
 
 import com.eduai.auth.handler.OAuth2LoginSuccessHandler;
-import com.eduai.auth.security.JwtAuthenticationFilter;
-import com.eduai.auth.security.JwtTokenProvider;
+import com.eduai.auth.jwt.JwtAuthenticationFilter;
+import com.eduai.auth.jwt.JwtTokenProvider;
 import com.eduai.auth.service.CustomOAuth2UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

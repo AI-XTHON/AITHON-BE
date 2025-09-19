@@ -1,8 +1,8 @@
 
-package com.eduai.auth.security;
+package com.eduai.auth.attributes;
 
-import com.eduai.auth.domain.Role;
-import com.eduai.auth.domain.User;
+import com.eduai.user.domain.Role;
+import com.eduai.user.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -40,11 +40,6 @@ public class OAuthAttributes {
     }
 
     public User toEntity() {
-        return User.builder()
-                .name(name)
-                .email(email)
-                .role(Role.USER)
-                .provider("google")
-                .build();
+        return User.create(email, name, Role.USER, "google");
     }
 }
