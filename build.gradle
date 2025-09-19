@@ -20,6 +20,10 @@ configurations {
     }
 }
 
+ext {
+    springdocVersion = '2.8.9'
+}
+
 repositories {
     mavenCentral()
 }
@@ -52,6 +56,10 @@ dependencies {
 
     // Liquibase
     implementation 'org.liquibase:liquibase-core'
+
+    // Swagger
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVersion}"
+    implementation "org.springdoc:springdoc-openapi-starter-webmvc-api:${springdocVersion}"
 
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
