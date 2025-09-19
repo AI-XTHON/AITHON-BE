@@ -2,6 +2,7 @@ package com.eduai.resource.presentation.docs;
 
 import com.eduai.common.dto.ApiResult;
 import com.eduai.common.exception.ErrorResponse;
+import com.eduai.resource.application.dto.CreateResourceRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -52,6 +53,11 @@ public interface ResourceApiDocs {
                     description = "업로드할 파일",
                     required = true
             )
-            MultipartFile file
+            MultipartFile file,
+
+            @Parameter(
+                    description = "리소스 추가 정보"
+            )
+            CreateResourceRequest request
     );
 }

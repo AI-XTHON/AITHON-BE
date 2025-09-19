@@ -22,6 +22,7 @@ public enum ErrorCode {
     // 리소스 관련 에러 코드
     FILE_IS_EMPTY("업로드할 파일이 비어 있습니다.", HttpStatus.BAD_REQUEST.value()),
     FILE_UPLOAD_FAILED("파일 업로드에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    RESOURCE_NOT_FOUND("학습 자료를 찾을 수 없습니다.", HttpStatus.NOT_FOUND.value()),
 
     // 4xx 에러 코드
     BAD_REQUEST("잘못된 요청입니다.", HttpStatus.BAD_REQUEST.value()),

@@ -2,6 +2,7 @@ package com.eduai.resource.application;
 
 import com.eduai.common.exception.BusinessException;
 import com.eduai.common.exception.ErrorCode;
+import com.eduai.resource.application.dto.CreateResourceRequest;
 import com.eduai.resource.domain.Resource;
 import com.eduai.resource.infrastructure.ResourceRepository;
 import com.eduai.user.domain.User;
@@ -30,7 +31,7 @@ public class ResourceService {
     private String bucketName;
 
     @Transactional
-    public Long uploadResource(MultipartFile file, String email) {
+    public Long uploadResource(MultipartFile file, String email, CreateResourceRequest request) {
         if (file.isEmpty()) {
             throw new BusinessException(ErrorCode.FILE_IS_EMPTY);
         }
@@ -53,6 +54,7 @@ public class ResourceService {
 
             Resource resource = Resource.create(
                     user,
+                    request.title(),
                     storedFileName,
                     filePath,
                     file.getContentType()
