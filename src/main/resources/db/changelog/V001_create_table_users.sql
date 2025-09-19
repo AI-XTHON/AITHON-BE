@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users
     role          VARCHAR(20)                           NOT NULL,
     provider      VARCHAR(30)                           NOT NULL,
     refresh_token TEXT                                  NULL,
-    type          VARCHAR(30) DEFAULT NULL              NULL,
+    job          VARCHAR(30) DEFAULT NULL              NULL,
     age_group     VARCHAR(30) DEFAULT NULL              NULL,
     purpose       VARCHAR(30) DEFAULT NULL              NULL,
     created_at    TIMESTAMP   DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '데이터 생성일자',

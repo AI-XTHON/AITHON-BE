@@ -38,7 +38,7 @@ public class User extends BaseTimeEntity {
 
     private String refreshToken;
 
-    private String type;
+    private String job;
 
     private String ageGroup;
 
@@ -57,6 +57,12 @@ public class User extends BaseTimeEntity {
     public User update(String name) {
         this.name = name;
         return this;
+    }
+
+    public void updateUserInfo(String job, String ageGroup, String purpose) {
+        this.job = job;
+        this.ageGroup = ageGroup;
+        this.purpose = purpose;
     }
 
     public void updateRefreshToken(String refreshToken) {

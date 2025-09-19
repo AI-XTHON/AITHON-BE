@@ -31,6 +31,7 @@ public class UserController implements UserApiDocs {
     @PatchMapping("/me")
     @Override
     public ResponseEntity<ApiResult<Void>> updateUserInfo(@AuthUser Long userId, UpdateUserRequest request) {
-        return null;
+        userService.updateUserInfo(userId, request);
+        return ResponseEntity.ok(ApiResult.success(HttpStatus.OK, "회원 정보가 성공적으로 수정되었습니다.", null));
     }
 }

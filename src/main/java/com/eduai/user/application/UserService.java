@@ -2,6 +2,7 @@ package com.eduai.user.application;
 
 import com.eduai.common.exception.BusinessException;
 import com.eduai.common.exception.ErrorCode;
+import com.eduai.user.application.dto.UpdateUserRequest;
 import com.eduai.user.application.dto.UserInfoResponse;
 import com.eduai.user.domain.User;
 import com.eduai.user.infrastructure.UserRepository;
@@ -13,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
     public UserInfoResponse getUserInfo(Long userId) {
@@ -24,5 +25,13 @@ public class UserService {
                 user.getName(),
                 user.getName()
         );
+    }
+
+    @Transactional
+    public void updateUserInfo(Long userId, UpdateUserRequest request) {
+        User user = userRepository.findById(userId).orElseThrow(
+                () -> new BusinessException(ErrorCode.USER_NOT_FOUND));
+
+        user.updateUserInfo(request.job(), request.ageGroup(), request.purpose());
     }
 }
