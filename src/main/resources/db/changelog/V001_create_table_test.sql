@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS test (
+    id bigint AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    name varchar(255) NOT NULL
+);
