@@ -2,6 +2,7 @@
 package com.eduai.auth.jwt;
 
 import com.eduai.auth.application.dto.TokenInfo;
+import com.eduai.user.domain.Role;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -16,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -47,23 +50,40 @@ public class JwtTokenProvider {
 
         Date accessTokenExpiresIn = new Date(now + accessTokenValidityInMilliseconds);
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
+                .subject(authentication.getName())
                 .claim("auth", authorities)
-                .setExpiration(accessTokenExpiresIn)
+                .expiration(accessTokenExpiresIn)
                 .signWith(key)
                 .compact();
 
         Date refreshTokenExpiresIn = new Date(now + refreshTokenValidityInMilliseconds);
         String refreshToken = Jwts.builder()
-                .setExpiration(refreshTokenExpiresIn)
+                .expiration(refreshTokenExpiresIn)
                 .signWith(key)
                 .compact();
 
-        return TokenInfo.builder()
-                .grantType("Bearer")
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return TokenInfo.of(accessToken, refreshToken);
+    }
+
+    public String createAccessToken(String email, Role role) {
+        LocalDateTime dateTime = LocalDateTime.now().plusSeconds(accessTokenValidityInMilliseconds);
+        Date expiration = Date.from(dateTime.toInstant(ZoneOffset.of("Asia/Seoul")));
+        return Jwts.builder()
+                .subject(email)
+                .claim("auth", role)
+                .expiration(expiration)
+                .signWith(key)
+                .compact();
+    }
+
+    public String createRefreshToken() {
+        LocalDateTime dateTime = LocalDateTime.now().plusSeconds(refreshTokenValidityInMilliseconds);
+        Date expiration = Date.from(dateTime.toInstant(ZoneOffset.of("Asia/Seoul")));
+
+        return Jwts.builder()
+                .expiration(expiration)
+                .signWith(key)
+                .compact();
     }
 
     public Authentication getAuthentication(String accessToken) {
@@ -104,4 +124,5 @@ public class JwtTokenProvider {
             return e.getClaims();
         }
     }
+
 }

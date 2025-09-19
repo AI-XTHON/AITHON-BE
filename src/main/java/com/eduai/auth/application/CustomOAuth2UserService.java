@@ -1,5 +1,5 @@
 
-package com.eduai.auth.service;
+package com.eduai.auth.application;
 
 import com.eduai.user.domain.User;
 import com.eduai.user.infrastructure.UserRepository;

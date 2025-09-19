@@ -36,17 +36,24 @@ public class User extends BaseTimeEntity {
 
     private String provider;
 
-    public static User create(String email, String name, Role role, String provider) {
+    private String refreshToken;
+
+    public static User create(String email, String name, Role role, String provider, String refreshToken) {
         return User.builder()
                 .email(email)
                 .name(name)
                 .role(role)
                 .provider(provider)
+                .refreshToken(refreshToken)
                 .build();
     }
 
     public User update(String name) {
         this.name = name;
         return this;
+    }
+
+    public void updateRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }

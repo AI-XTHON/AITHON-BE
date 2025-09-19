@@ -40,6 +40,6 @@ public class OAuthAttributes {
     }
 
     public User toEntity() {
-        return User.create(email, name, Role.USER, "google");
+        return User.create(email, name, Role.USER, "google", null);
     }
 }
