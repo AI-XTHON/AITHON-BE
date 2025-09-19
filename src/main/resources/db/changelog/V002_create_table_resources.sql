@@ -12,5 +12,5 @@ CREATE TABLE IF NOT EXISTS resources
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '데이터 생성일자',
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '데이터 수정일자',
 
-    constraint fk_user_id foreign key (user_id) references users (id)
+    constraint fk_resources_to_users foreign key (user_id) references users (id)
 );
