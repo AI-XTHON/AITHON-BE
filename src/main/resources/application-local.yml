@@ -1,27 +1,51 @@
 spring:
   application:
-    name: Edu-AI-backend
+    name: Edu-AI-backend-local
+
+  # --- H2 In-memory Database for Local ---
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
 
   # --- Datasource Configuration ---
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/edu_ai?useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3307/edu_ai_db?useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
   # --- JPA & Hibernate Configuration ---
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update # Use update to create tables automatically in H2
     show-sql: true
     properties:
       hibernate:
         format_sql: true
-        default_batch_fetch_size: 100
-    open-in-view: true
 
-  # --- Liquibase Configuration ---
+  # --- Liquibase Configuration (Disabled for local) ---
   liquibase:
-    change-log: classpath:/db/db.changelog-master.yaml
-    enabled: true
-    contexts: local
+    enabled: false
+
+  # --- OAuth2 Client (Google) ---
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+
+# --- JWT (JSON Web Token) ---
+jwt:
+  secret: 8616e8c057898e393f7e5d1abe4137849baee8e092cc91cd1a21c3be7fde0e95
+  access-token-validity-in-seconds: 3600 # 1 hour
+  refresh-token-validity-in-seconds: 86400 # 1 day
+
+# --- CORS settings ---
+cors:
+  allowed-origins: http://localhost:5173
