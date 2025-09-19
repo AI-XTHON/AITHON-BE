@@ -2,6 +2,7 @@ package com.eduai.user.presentation.docs;
 
 import com.eduai.common.dto.ApiResult;
 import com.eduai.common.exception.BusinessException;
+import com.eduai.user.application.dto.OnboardUserInfoRequest;
 import com.eduai.user.application.dto.UpdateUserRequest;
 import com.eduai.user.application.dto.UserInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,6 +34,30 @@ public interface UserApiDocs {
             }
     )
     ResponseEntity<ApiResult<UserInfoResponse>> getMyInfo(@Parameter(hidden = true) String email);
+
+    @Operation(
+            summary = "회원 온보딩",
+            description = "현재 로그인된 사용자의 온보딩 정보를 설정합니다.",
+            security = @SecurityRequirement(name = "JWT Authentication"),
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "회원 온보딩 성공",
+                            content = @Content(schema = @Schema(implementation = Void.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "잘못된 요청 (유효성 검증 실패)",
+                            content = @Content(schema = @Schema(implementation = BusinessException.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "인증 실패",
+                            content = @Content(schema = @Schema(implementation = BusinessException.class))
+                    )
+            }
+    )
+    ResponseEntity<ApiResult<Void>> onboardUser(@Parameter(hidden = true) String email, OnboardUserInfoRequest request);
 
     @Operation(
             summary = "회원 정보 수정",
