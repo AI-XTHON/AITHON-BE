@@ -36,6 +36,20 @@ spring:
               - email
               - profile
 
+  cloud:
+    gcp:
+      credentials:
+        location: classpath:edu-ai-api-0343b56c41ab.json
+        scopes:
+          - https://www.googleapis.com/auth/devstorage.read_write
+      storage:
+        bucket: edu_ai_bucket
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 # --- JWT (JSON Web Token) ---
 jwt:
   secret: 8616e8c057898e393f7e5d1abe4137849baee8e092cc91cd1a21c3be7fde0e95
