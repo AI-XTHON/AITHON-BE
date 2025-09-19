@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List; // List import 추가
+
 @RestController
 @RequestMapping("/api/v1/resources")
 @RequiredArgsConstructor
 public class ResourceController implements ResourceApiDocs {
 
     private final ResourceService resourceService;
+
+    private static final List<String> ALLOWED_CONTENT_TYPES = List.of("application/pdf");
 
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ApiResult<Long>> uploadResource(
@@ -33,9 +37,9 @@ public class ResourceController implements ResourceApiDocs {
             }
 
             String contentType = file.getContentType();
-            if (contentType == null || !contentType.startsWith("image/")) {
+            if (contentType == null || !ALLOWED_CONTENT_TYPES.contains(contentType)) {
                 return ResponseEntity.badRequest()
-                        .body(ApiResult.error(HttpStatus.BAD_REQUEST, "이미지 파일만 업로드 가능합니다."));
+                        .body(ApiResult.error(HttpStatus.BAD_REQUEST, "지원하지 않는 파일 형식입니다. (PDF만 가능)"));
             }
 
             Long resourceId = resourceService.uploadResource(file, email);
