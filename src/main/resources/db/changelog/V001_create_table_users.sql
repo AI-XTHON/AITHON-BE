@@ -9,6 +9,8 @@ CREATE TABLE IF NOT EXISTS users
     name     VARCHAR(20)                       NOT NULL,
     role     VARCHAR(20)                       NOT NULL,
     provider VARCHAR(30)                       NOT NULL,
+    created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '데이터 생성일자',
+    updated_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '데이터 수정일자',
 
     constraint chk_role check (role in ('USER', 'ADMIN'))
 );
