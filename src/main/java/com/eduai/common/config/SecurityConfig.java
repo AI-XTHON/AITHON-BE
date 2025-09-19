@@ -40,16 +40,35 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/health", "/login/**", "/oauth2/**", "/h2-console/**").permitAll()
-                        .anyRequest().authenticated()
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
+                .authorizeHttpRequests(auth ->
+                        auth
+                                .requestMatchers(
+                                        "/health",
+                                        "/v3/api-docs/**",
+                                        "/swagger-ui/**",
+                                        "/swagger-ui.html",
+                                        "/login/**"
+                                        ).permitAll()
+                                .anyRequest().authenticated()
                 )
-                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin())) // For H2 console
+                .exceptionHandling(
+                        ex ->
+                                ex.authenticationEntryPoint(
+                                                (request, response, authException) ->
+                                                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
+                                        )
+                                        .accessDeniedHandler(
+                                                (request, response, accessDeniedException) ->
+                                                        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Forbidden")
+                                        )
+                )
                 .oauth2Login(oauth2 -> oauth2
                         .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
                         .successHandler(oAuth2LoginSuccessHandler)
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+        ;
 
         return http.build();
     }
@@ -57,7 +76,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(allowedOrigin)); // Use injected value
+        configuration.setAllowedOrigins(List.of(allowedOrigin));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);
@@ -72,4 +91,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+  
 }
