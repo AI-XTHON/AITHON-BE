@@ -1,8 +1,8 @@
 
-package com.eduai.handler;
+package com.eduai.auth.handler;
 
-import com.eduai.dto.TokenInfo;
-import com.eduai.security.JwtTokenProvider;
+import com.eduai.auth.dto.TokenInfo;
+import com.eduai.auth.security.JwtTokenProvider;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,7 +1,7 @@
 
-package com.eduai.security;
+package com.eduai.auth.security;
 
-import com.eduai.dto.TokenInfo;
+import com.eduai.auth.dto.TokenInfo;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;

@@ -1,5 +1,5 @@
 
-package com.eduai.domain;
+package com.eduai.auth.domain;
 
 import jakarta.persistence.*;
 import lombok.Builder;

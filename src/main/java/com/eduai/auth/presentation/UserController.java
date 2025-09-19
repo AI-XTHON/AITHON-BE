@@ -1,5 +1,5 @@
 
-package com.eduai.common.presentation;
+package com.eduai.auth.presentation;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

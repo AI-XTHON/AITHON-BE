@@ -10,10 +10,10 @@ spring:
 
   # --- Datasource Configuration ---
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:aithon-db;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/edu_ai_db?useSSL=true&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   # --- JPA & Hibernate Configuration ---
   jpa:

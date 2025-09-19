@@ -1,5 +1,5 @@
 
-package com.eduai.security;
+package com.eduai.auth.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

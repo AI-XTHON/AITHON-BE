@@ -1,8 +1,8 @@
 
-package com.eduai.security;
+package com.eduai.auth.security;
 
-import com.eduai.domain.Role;
-import com.eduai.domain.User;
+import com.eduai.auth.domain.Role;
+import com.eduai.auth.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
