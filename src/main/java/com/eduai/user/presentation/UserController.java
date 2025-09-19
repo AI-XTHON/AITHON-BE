@@ -23,15 +23,15 @@ public class UserController implements UserApiDocs {
 
     @GetMapping("/me")
     @Override
-    public ResponseEntity<ApiResult<UserInfoResponse>> getMyInfo(@AuthUser Long userId) {
-        UserInfoResponse response = userService.getUserInfo(userId);
+    public ResponseEntity<ApiResult<UserInfoResponse>> getMyInfo(@AuthUser String email) {
+        UserInfoResponse response = userService.getUserInfo(email);
         return ResponseEntity.ok(ApiResult.success(HttpStatus.OK, "현재 사용자 정보를 성공적으로 조회했습니다.", response));
     }
 
     @PatchMapping("/me")
     @Override
-    public ResponseEntity<ApiResult<Void>> updateUserInfo(@AuthUser Long userId, UpdateUserRequest request) {
-        userService.updateUserInfo(userId, request);
+    public ResponseEntity<ApiResult<Void>> updateUserInfo(@AuthUser String email, UpdateUserRequest request) {
+        userService.updateUserInfo(email, request);
         return ResponseEntity.ok(ApiResult.success(HttpStatus.OK, "회원 정보가 성공적으로 수정되었습니다.", null));
     }
 }

@@ -17,8 +17,8 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional(readOnly = true)
-    public UserInfoResponse getUserInfo(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(
+    public UserInfoResponse getUserInfo(String email) {
+        User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         return new UserInfoResponse(
@@ -28,8 +28,8 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserInfo(Long userId, UpdateUserRequest request) {
-        User user = userRepository.findById(userId).orElseThrow(
+    public void updateUserInfo(String email, UpdateUserRequest request) {
+        User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         user.updateUserInfo(request.job(), request.ageGroup(), request.purpose());

@@ -17,9 +17,9 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasAuthUserAnnotation = parameter.getParameterAnnotation(AuthUser.class) != null;
-        boolean isLongType = Long.class.isAssignableFrom(parameter.getParameterType());
+        boolean isStringType = String.class.isAssignableFrom(parameter.getParameterType());
 
-        return hasAuthUserAnnotation && isLongType;
+        return hasAuthUserAnnotation && isStringType;
     }
 
     @Override
@@ -32,9 +32,9 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
             throw new BusinessException(ErrorCode.UNAUTHORIZED);
         }
 
-        Object principal = authentication.getPrincipal();
+        Object principal = authentication.getName();
 
-        if (principal instanceof Long) {
+        if (principal instanceof String) {
             return principal;
         }
 

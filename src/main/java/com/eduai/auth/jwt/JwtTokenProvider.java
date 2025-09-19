@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -51,8 +52,9 @@ public class JwtTokenProvider {
         long now = (new Date()).getTime();
 
         Date accessTokenExpiresIn = new Date(now + accessTokenValidityInMilliseconds);
+        String email = ((DefaultOAuth2User) authentication.getPrincipal()).getAttribute("email");
         String accessToken = Jwts.builder()
-                .subject(authentication.getName())
+                .subject(email)
                 .claim("auth", authorities)
                 .expiration(accessTokenExpiresIn)
                 .signWith(key)
@@ -69,7 +71,7 @@ public class JwtTokenProvider {
 
     public String createAccessToken(String email, Role role) {
         LocalDateTime dateTime = LocalDateTime.now().plusSeconds(accessTokenValidityInMilliseconds);
-        Date expiration = Date.from(dateTime.toInstant(ZoneOffset.of("Asia/Seoul")));
+        Date expiration = Date.from(dateTime.toInstant(ZoneOffset.of("+09:00")));
         return Jwts.builder()
                 .subject(email)
                 .claim("auth", role)
@@ -96,9 +98,7 @@ public class JwtTokenProvider {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        Long userId = Long.parseLong(claims.getSubject());
-
-        return new UsernamePasswordAuthenticationToken(userId, "", authorities);
+        return new UsernamePasswordAuthenticationToken(claims.getSubject(), "", authorities);
     }
 
     public boolean validateToken(String token) {
@@ -124,5 +124,4 @@ public class JwtTokenProvider {
             return e.getClaims();
         }
     }
-
 }

@@ -5,6 +5,7 @@ import com.eduai.common.exception.BusinessException;
 import com.eduai.user.application.dto.UpdateUserRequest;
 import com.eduai.user.application.dto.UserInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,7 +32,7 @@ public interface UserApiDocs {
                     )
             }
     )
-    ResponseEntity<ApiResult<UserInfoResponse>> getMyInfo(Long userId);
+    ResponseEntity<ApiResult<UserInfoResponse>> getMyInfo(@Parameter(hidden = true) String email);
 
     @Operation(
             summary = "회원 정보 수정",
@@ -54,5 +55,5 @@ public interface UserApiDocs {
                     )
             }
     )
-    ResponseEntity<ApiResult<Void>> updateUserInfo(Long userId, UpdateUserRequest request);
+    ResponseEntity<ApiResult<Void>> updateUserInfo(@Parameter(hidden = true) String email, UpdateUserRequest request);
 }
