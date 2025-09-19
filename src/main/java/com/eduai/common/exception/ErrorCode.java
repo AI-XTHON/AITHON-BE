@@ -17,6 +17,7 @@ public enum ErrorCode {
 
     // 사용자 관련 에러 코드
     BUSINESS_ERROR("비즈니스 로직 오류입니다.", HttpStatus.BAD_REQUEST.value()),
+    USER_NOT_FOUND("사용자를 찾을 수 없습니다.", HttpStatus.NOT_FOUND.value()),
 
     // 4xx 에러 코드
     BAD_REQUEST("잘못된 요청입니다.", HttpStatus.BAD_REQUEST.value()),

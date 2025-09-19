@@ -38,6 +38,12 @@ public class User extends BaseTimeEntity {
 
     private String refreshToken;
 
+    private String type;
+
+    private String ageGroup;
+
+    private String purpose;
+
     public static User create(String email, String name, Role role, String provider, String refreshToken) {
         return User.builder()
                 .email(email)
