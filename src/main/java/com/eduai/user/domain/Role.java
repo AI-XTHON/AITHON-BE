@@ -1,5 +1,5 @@
 
-package com.eduai.auth.domain;
+package com.eduai.user.domain;
 
 public enum Role {
     USER, ADMIN

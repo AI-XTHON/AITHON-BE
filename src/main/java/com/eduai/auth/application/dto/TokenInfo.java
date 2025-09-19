@@ -1,5 +1,5 @@
 
-package com.eduai.auth.dto;
+package com.eduai.auth.application.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -18,7 +18,7 @@ spring:
   # --- JPA & Hibernate Configuration ---
   jpa:
     hibernate:
-      ddl-auto: update # Use update to create tables automatically in H2
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
@@ -26,7 +26,9 @@ spring:
 
   # --- Liquibase Configuration (Disabled for local) ---
   liquibase:
-    enabled: false
+    enabled: true
+    change-log: classpath:db/db.changelog-master.yaml
+    contexts: local
 
   # --- OAuth2 Client (Google) ---
   security:

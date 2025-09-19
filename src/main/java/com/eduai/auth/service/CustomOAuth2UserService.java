@@ -1,9 +1,9 @@
 
 package com.eduai.auth.service;
 
-import com.eduai.auth.domain.User;
-import com.eduai.auth.repository.UserRepository;
-import com.eduai.auth.security.OAuthAttributes;
+import com.eduai.user.domain.User;
+import com.eduai.user.infrastructure.UserRepository;
+import com.eduai.auth.attributes.OAuthAttributes;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
