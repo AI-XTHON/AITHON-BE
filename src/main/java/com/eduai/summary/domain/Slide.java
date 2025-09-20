@@ -43,12 +43,10 @@ public class Slide {
     private Summary summary;
 
     public static Slide create(String title, String oneLiner, List<Integer> pages, Summary summary) {
-        return Slide.builder()
-                .title(title)
-                .oneLiner(oneLiner)
-                .pages(pages)
-                .summary(summary)
-                .build();
+        return new Slide(null, title, oneLiner, pages, summary);
+    }
+
+    public void addSummary(Summary summary) {
     }
 }
 

@@ -5,10 +5,10 @@ import com.eduai.common.exception.ErrorCode;
 import com.eduai.resource.application.dto.CreateResourceRequest;
 import com.eduai.resource.domain.Resource;
 import com.eduai.resource.infrastructure.ResourceRepository;
-import com.eduai.summary.application.dto.SummaryResponse;
+import com.eduai.summary.application.dto.FastApiFullResponse;
 import com.eduai.summary.domain.GlossaryTerm;
-import com.eduai.summary.domain.Question;
-import com.eduai.summary.domain.QuestionType;
+import com.eduai.quiz.domain.Question;
+import com.eduai.quiz.domain.QuestionType;
 import com.eduai.summary.domain.Slide;
 import com.eduai.summary.domain.Summary;
 import com.eduai.summary.infrastructure.SummaryRepository;
@@ -27,6 +27,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -63,10 +64,10 @@ public class ResourceService {
 
             // 3. Resource 엔티티 생성 및 저장
             Resource resource = Resource.create(user, request.title(), storedFileName, filePath, file.getContentType());
-            Resource savedResource = resourceRepository.save(resource);
+            Resource savedResource = resourceRepository.saveAndFlush(resource);
 
             // 4. [책임 분리] FastAPI에 요약 요청 및 응답 받기
-            SummaryResponse summaryDto = requestSummaryFromFastAPI(file);
+            FastApiFullResponse summaryDto = requestSummaryFromFastAPI(file);
 
             // 5. [책임 분리] 요약 데이터 변환 및 저장
             saveSummaryData(savedResource, summaryDto);
@@ -92,15 +93,15 @@ public class ResourceService {
     /**
      * 책임 2: FastAPI 서버에 요약 요청을 보내고 결과를 DTO로 받아옴
      */
-    private SummaryResponse requestSummaryFromFastAPI(MultipartFile file) throws IOException {
+    private FastApiFullResponse requestSummaryFromFastAPI(MultipartFile file) throws IOException {
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         builder.part("file", new ByteArrayResource(file.getBytes()))
                 .header("Content-Disposition", "form-data; name=file; filename=" + file.getOriginalFilename());
 
-        SummaryResponse response = webClientBuilder.build()
+        FastApiFullResponse response = webClientBuilder.build()
                 .post().uri(FASTAPI_SUMMARY_URL)
                 .body(BodyInserters.fromMultipartData(builder.build()))
-                .retrieve().bodyToMono(SummaryResponse.class).block();
+                .retrieve().bodyToMono(FastApiFullResponse.class).block();
 
         if (response == null) {
             throw new BusinessException(ErrorCode.SUMMARY_FAILED);
@@ -111,21 +112,34 @@ public class ResourceService {
     /**
      * 책임 3: DTO를 엔티티로 변환하고 DB에 저장
      */
-    private void saveSummaryData(Resource resource, SummaryResponse responseDto) {
-        Summary summary = new Summary(resource, responseDto.filename(), responseDto.pages(), responseDto.model(),
-                responseDto.result().summary5(), responseDto.result().further());
+    private void saveSummaryData(Resource resource, FastApiFullResponse responseDto) {
+        Summary summary = Summary.builder().resource(resource)
+                .filename(responseDto.filename())
+                .pages(responseDto.pages())
+                .model( responseDto.model())
+                .summary5(responseDto.result().summary5())
+                .furtherTopics(responseDto.result().further())
+                .build();
 
-        responseDto.result().slides().forEach(dto ->
-                summary.addSlide(Slide.create(dto.title(), dto.one_liner(), dto.pages(), summary)
-        ));
-        responseDto.result().glossary().forEach(dto ->
-                summary.addGlossaryTerm(GlossaryTerm.create(dto.term(), dto.definition(), dto.pages(), summary))
+        responseDto.result().slides().forEach(dto -> {
+                    Slide slide = Slide.create(dto.title(), dto.one_liner(), dto.pages(), summary);
+                    summary.addSlide(slide);
+                }
         );
-        responseDto.result().questions().shortAnswer().forEach(dto ->
-                summary.addQuestion(Question.create(QuestionType.SHORT, dto.q(), dto.a(), dto.pages(), summary))
+        responseDto.result().glossary().forEach(dto -> {
+                    GlossaryTerm term = GlossaryTerm.create(dto.term(), dto.definition(), dto.pages(), summary);
+                    summary.addGlossaryTerm(term);
+                }
         );
-        responseDto.result().questions().longAnswer().forEach(dto ->
-                summary.addQuestion(Question.create(QuestionType.LONG, dto.q(), dto.a(), dto.pages(), summary))
+        responseDto.result().questions().shortAnswer().forEach(dto -> {
+                    Question question = Question.create(QuestionType.SHORT, dto.q(), dto.a(), dto.pages(), summary);
+                    summary.addQuestion(question);
+                }
+        );
+        responseDto.result().questions().longAnswer().forEach(dto -> {
+                    Question question = Question.create(QuestionType.LONG, dto.q(), dto.a(), dto.pages(), summary);
+                    summary.addQuestion(question);
+                }
         );
 
         summaryRepository.save(summary);

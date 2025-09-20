@@ -82,7 +82,7 @@ public class JwtTokenProvider {
 
     public String createRefreshToken() {
         LocalDateTime dateTime = LocalDateTime.now().plusSeconds(refreshTokenValidityInMilliseconds);
-        Date expiration = Date.from(dateTime.toInstant(ZoneOffset.of("Asia/Seoul")));
+        Date expiration = Date.from(dateTime.toInstant(ZoneOffset.of("+09:00")));
 
         return Jwts.builder()
                 .expiration(expiration)

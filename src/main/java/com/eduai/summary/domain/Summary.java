@@ -1,9 +1,10 @@
 package com.eduai.summary.domain;
 
+import com.eduai.common.domain.BaseTimeEntity;
+import com.eduai.quiz.domain.Question;
 import com.eduai.resource.domain.Resource;
 import com.eduai.summary.converter.StringListConverter;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -28,8 +29,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Builder(access = AccessLevel.PRIVATE)
-public class Summary {
+@Builder
+public class Summary extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,12 +50,15 @@ public class Summary {
     @Convert(converter = StringListConverter.class)
     private List<String> furtherTopics;
 
+    @Builder.Default
     @OneToMany(mappedBy = "summary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Slide> slides = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "summary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<GlossaryTerm> glossaryTerms = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "summary", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Question> questions = new ArrayList<>();
 
@@ -70,13 +74,16 @@ public class Summary {
 
     public void addSlide(Slide slide) {
         this.slides.add(slide);
+        slide.addSummary(this);
     }
 
     public void addGlossaryTerm(GlossaryTerm glossaryTerm) {
         this.glossaryTerms.add(glossaryTerm);
+        glossaryTerm.addSummary(this);
     }
 
     public void addQuestion(Question question) {
         this.questions.add(question);
+        question.addSummary(this);
     }
 }

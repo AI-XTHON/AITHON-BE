@@ -12,6 +12,8 @@ CREATE TABLE summaries
     model          VARCHAR(255),
     summary5       TEXT,
     further_topics TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT '데이터 생성일자',
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '데이터 수정일자',
 
     CONSTRAINT fk_summaries_on_resource FOREIGN KEY (resource_id) REFERENCES resources (id)
 );

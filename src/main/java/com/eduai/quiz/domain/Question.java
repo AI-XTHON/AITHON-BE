@@ -1,7 +1,7 @@
-package com.eduai.summary.domain;
+package com.eduai.quiz.domain;
 
 import com.eduai.summary.converter.IntegerListConverter;
-import jakarta.persistence.Column;
+import com.eduai.summary.domain.Summary;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -48,12 +48,10 @@ public class Question {
     private Summary summary;
 
     public static Question create(QuestionType type, String q, String a, List<Integer> pages, Summary summary) {
-        return Question.builder()
-                .type(type)
-                .q(q)
-                .a(a)
-                .pages(pages)
-                .summary(summary)
-                .build();
+        return new Question(null, type, q, a, pages, summary);
+    }
+
+    public void addSummary(Summary summary) {
+        this.summary = summary;
     }
 }

@@ -43,11 +43,10 @@ public class GlossaryTerm {
     private Summary summary;
 
     public static GlossaryTerm create(String term, String definition, List<Integer> pages, Summary summary) {
-        return GlossaryTerm.builder()
-                .term(term)
-                .definition(definition)
-                .pages(pages)
-                .summary(summary)
-                .build();
+        return new GlossaryTerm(null, term, definition, pages, summary);
+    }
+
+    public void addSummary(Summary summary) {
+        this.summary = summary;
     }
 }

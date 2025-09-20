@@ -1,4 +1,4 @@
-package com.eduai.summary.domain;
+package com.eduai.quiz.domain;
 
 public enum QuestionType {
 
