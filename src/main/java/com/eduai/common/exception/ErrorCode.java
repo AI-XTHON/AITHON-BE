@@ -24,6 +24,7 @@ public enum ErrorCode {
     FILE_UPLOAD_FAILED("파일 업로드에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR.value()),
     RESOURCE_NOT_FOUND("학습 자료를 찾을 수 없습니다.", HttpStatus.NOT_FOUND.value()),
     SUMMARY_FAILED("요약 생성에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    SUMMARY_NOT_FOUND("요약을 찾을 수 없습니다.", HttpStatus.NOT_FOUND.value()),
 
     // 4xx 에러 코드
     BAD_REQUEST("잘못된 요청입니다.", HttpStatus.BAD_REQUEST.value()),

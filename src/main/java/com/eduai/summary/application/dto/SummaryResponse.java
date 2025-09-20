@@ -4,11 +4,13 @@ import com.eduai.summary.domain.Summary;
 
 public record SummaryResponse(
 
+        String thumpNail,
         String summary,
-        String questionType
+        String oneLiner
 ) {
     public static SummaryResponse from(Summary summary) {
         return new SummaryResponse(
+                summary.getResource().getFilePath(),
                 summary.getSummary5().getFirst(),
                 summary.getSlides().getFirst().getOneLiner()
         );
