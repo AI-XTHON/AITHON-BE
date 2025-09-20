@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS resources
 (
     id         BIGINT AUTO_INCREMENT PRIMARY KEY   NOT NULL,
     user_id    BIGINT                              NOT NULL,
+    title      VARCHAR(100)                        NOT NULL,
     file_name  VARCHAR(255)                        NOT NULL,
     file_path  TEXT                                NOT NULL,
     file_type  VARCHAR(50)                         NOT NULL,

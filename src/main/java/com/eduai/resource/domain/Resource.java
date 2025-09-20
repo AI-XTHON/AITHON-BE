@@ -32,15 +32,18 @@ public class Resource extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    private String title;
+
     private String fileName;
 
     private String filePath;
 
     private String fileType;
 
-    public static Resource create(User user, String fileName, String filePath, String fileType) {
+    public static Resource create(User user, String title, String fileName, String filePath, String fileType) {
         return Resource.builder()
                 .user(user)
+                .title(title)
                 .fileName(fileName)
                 .filePath(filePath)
                 .fileType(fileType)

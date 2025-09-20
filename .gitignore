@@ -48,3 +48,6 @@ edu-ai-infra/.env
 
 ### Local Data ###
 data/
+
+### .json files ###
+*.json

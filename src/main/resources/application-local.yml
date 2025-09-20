@@ -2,12 +2,6 @@ spring:
   application:
     name: Edu-AI-backend-local
 
-  # --- H2 In-memory Database for Local ---
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
   # --- Datasource Configuration ---
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -41,6 +35,20 @@ spring:
             scope:
               - email
               - profile
+
+  cloud:
+    gcp:
+      credentials:
+        location: classpath:edu-ai-api-0343b56c41ab.json
+        scopes:
+          - https://www.googleapis.com/auth/devstorage.read_write
+      storage:
+        bucket: edu_ai_bucket
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 # --- JWT (JSON Web Token) ---
 jwt:
