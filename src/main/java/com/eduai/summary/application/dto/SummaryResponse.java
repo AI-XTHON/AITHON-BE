@@ -4,7 +4,7 @@ import com.eduai.summary.domain.Summary;
 
 public record SummaryResponse(
 
-        String thumpNail,
+        String thumbNail,
         String summary,
         String oneLiner
 ) {

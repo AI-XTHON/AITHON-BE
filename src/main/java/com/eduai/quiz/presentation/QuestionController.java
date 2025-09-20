@@ -5,16 +5,14 @@ import com.eduai.common.dto.ApiResult;
 import com.eduai.common.exception.BusinessException;
 import com.eduai.common.exception.ErrorCode;
 import com.eduai.quiz.application.dto.GetQuizzesDto;
-import com.eduai.quiz.domain.Question;
 import com.eduai.quiz.infrastructure.QuestionRepository;
+import com.eduai.quiz.presentation.docs.QuestionApiDocs;
 import com.eduai.summary.domain.Summary;
 import com.eduai.summary.infrastructure.SummaryRepository;
-import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,12 +21,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/quizzes")
 @RequiredArgsConstructor
-public class QuestionController  {
+public class QuestionController implements QuestionApiDocs {
 
     private final QuestionRepository questionRepository;
     private final SummaryRepository summaryRepository;
 
     @GetMapping
+    @Override
     public ResponseEntity<ApiResult<List<GetQuizzesDto>>> getQuizzes(@AuthUser String email) {
 
         Summary summary = summaryRepository.getByEmail(email)

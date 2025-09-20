@@ -2,13 +2,13 @@ package com.eduai.resource.application;
 
 import com.eduai.common.exception.BusinessException;
 import com.eduai.common.exception.ErrorCode;
+import com.eduai.quiz.domain.Question;
+import com.eduai.quiz.domain.QuestionType;
 import com.eduai.resource.application.dto.CreateResourceRequest;
 import com.eduai.resource.domain.Resource;
 import com.eduai.resource.infrastructure.ResourceRepository;
 import com.eduai.summary.application.dto.FastApiFullResponse;
 import com.eduai.summary.domain.GlossaryTerm;
-import com.eduai.quiz.domain.Question;
-import com.eduai.quiz.domain.QuestionType;
 import com.eduai.summary.domain.Slide;
 import com.eduai.summary.domain.Summary;
 import com.eduai.summary.infrastructure.SummaryRepository;
@@ -27,7 +27,6 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Objects;
 import java.util.UUID;
 

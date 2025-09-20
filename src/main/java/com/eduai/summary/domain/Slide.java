@@ -47,6 +47,7 @@ public class Slide {
     }
 
     public void addSummary(Summary summary) {
+        this.summary = summary;
     }
 }
 
